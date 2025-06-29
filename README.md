@@ -7,8 +7,8 @@
 **고객 관리 시스템**은 중소기업이나 개인사업자가 고객 정보를 체계적으로 관리할 수 있도록 도와주는 웹 애플리케이션입니다.
 
 ### 🔗 연관 저장소
-- **🎨 프론트엔드**: [customer-frontend](https://github.com/your-username/customer-frontend) - 사용자가 실제로 보고 사용하는 웹 인터페이스
-- **⚡ 백엔드**: [customer-backend](https://github.com/your-username/customer-backend) - 현재 저장소 (데이터 처리 및 API 제공)
+- **🎨 프론트엔드**: [customer-frontend](https://github.com/webcorgi/customer-frontend) - 사용자가 실제로 보고 사용하는 웹 인터페이스
+- **⚡ 백엔드**: [customer-backend](https://github.com/webcorgi/customer-backend) - 현재 저장소 (데이터 처리 및 API 제공)
 
 ### 🎯 백엔드의 역할
 이 백엔드 API는 다음과 같은 역할을 담당합니다:
