@@ -212,3 +212,86 @@ MIT License - 자유롭게 사용하세요!
 ```
 
 **이 저장소는 위 아키텍처에서 "NestJS 백엔드" 부분을 담당합니다.**
+
+## 🚀 Koyeb 배포 가이드
+
+### 1. 환경변수 설정
+Koyeb 대시보드에서 다음 환경변수를 설정해주세요:
+
+```bash
+# 필수 환경변수
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# 선택 환경변수
+FRONTEND_URL=https://your-nextjs-app.vercel.app
+```
+
+### 2. Koyeb 빌드 설정
+
+**빌드 명령어:**
+```bash
+npm install && npm run build
+```
+
+**시작 명령어:**
+```bash
+npm start
+```
+
+**포트:** Koyeb이 자동으로 PORT 환경변수를 설정합니다.
+
+### 3. Git 저장소 연결
+1. Koyeb 대시보드에서 "Create App" 클릭
+2. GitHub/GitLab 저장소 연결
+3. 빌드 설정에서 위의 명령어 입력
+4. 환경변수 추가
+5. 배포 시작
+
+## 🔧 로컬 개발
+
+### 설치
+```bash
+npm install
+```
+
+### 환경변수 설정
+`.env` 파일을 루트에 생성:
+```bash
+SUPABASE_URL=your-supabase-url
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+FRONTEND_URL=http://localhost:3000
+```
+
+### 실행
+```bash
+# 개발 모드
+npm run start:dev
+
+# 프로덕션 빌드
+npm run build
+npm run start:prod
+```
+
+## 📚 API 문서
+
+서버 실행 후 Swagger 문서를 확인할 수 있습니다:
+- 로컬: http://localhost:3001/api
+- 배포: https://your-app.koyeb.app/api
+
+## 🛠 주요 기능
+
+- **고객 관리**: CRUD 작업
+- **Swagger 문서**: 자동 API 문서화
+- **유효성 검사**: class-validator 사용
+- **CORS 설정**: 프론트엔드와 안전한 통신
+
+## 🔍 문제 해결
+
+### 배포 오류
+1. 환경변수가 모두 설정되었는지 확인
+2. Supabase 키가 올바른지 확인
+3. 빌드 명령어가 정확한지 확인
+
+### CORS 오류
+프론트엔드 URL을 `FRONTEND_URL` 환경변수에 정확히 설정해주세요.

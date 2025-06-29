@@ -12,54 +12,77 @@ export class AppController {
   ) {}
 
   @Get()
-  @ApiOperation({ summary: '서버 상태 확인' })
-  @ApiResponse({ status: 200, description: '서버가 정상 작동 중입니다.' })
+  @ApiOperation({
+    summary: '기본 엔드포인트',
+    description: '서버가 정상 작동하는지 확인하는 기본 엔드포인트입니다.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '서버 정상 작동',
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'NestJS 고객 관리 시스템 API 서버가 정상 작동 중입니다!' },
+      },
+    },
+  })
   getHello(): string {
     return this.appService.getHello();
   }
 
   @Get('health')
-  @ApiOperation({ summary: '시스템 헬스체크' })
+  @ApiOperation({
+    summary: '서버 상태 확인',
+    description: '서버와 데이터베이스 연결 상태를 확인합니다.',
+  })
   @ApiResponse({
     status: 200,
-    description: '시스템 상태가 정상입니다.',
+    description: '서버 상태 정보',
     schema: {
       type: 'object',
       properties: {
         status: { type: 'string', example: 'ok' },
+        timestamp: { type: 'string', example: '2023-01-01T00:00:00.000Z' },
         database: {
           type: 'object',
           properties: {
             supabase: { type: 'boolean', example: true },
-            message: { type: 'string', example: '데이터베이스 연결이 정상입니다.' },
+            message: { type: 'string', example: '데이터베이스 연결 성공' },
           },
         },
-        timestamp: { type: 'string', example: '2024-01-01T00:00:00.000Z' },
       },
     },
   })
   async getHealth() {
     try {
-      const isDbConnected = await this.supabaseService.testConnection();
+      const isDbConnected = this.supabaseService.isConnected() 
+        ? await this.supabaseService.testConnection()
+        : false;
+
+      const dbMessage = this.supabaseService.isConnected()
+        ? (isDbConnected ? '데이터베이스 연결 성공' : '데이터베이스 연결 테스트 실패')
+        : '환경변수 미설정으로 데이터베이스 연결 불가';
 
       return {
-        status: isDbConnected ? 'ok' : 'error',
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development',
         database: {
           supabase: isDbConnected,
-          message: isDbConnected
-            ? '데이터베이스 연결이 정상입니다.'
-            : '데이터베이스 연결에 실패했습니다.',
+          message: dbMessage,
+          configured: this.supabaseService.isConnected(),
         },
-        timestamp: new Date().toISOString(),
       };
     } catch (error) {
       return {
         status: 'error',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development',
         database: {
           supabase: false,
-          message: '시스템 상태 확인 중 오류가 발생했습니다.',
+          message: `데이터베이스 오류: ${error instanceof Error ? error.message : '알 수 없는 오류'}`,
+          configured: false,
         },
-        timestamp: new Date().toISOString(),
       };
     }
   }

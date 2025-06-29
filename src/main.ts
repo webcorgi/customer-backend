@@ -10,7 +10,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:3000', // Next.js 개발 서버
-      'https://your-nextjs-app.vercel.app', // Vercel 배포 도메인 (나중에 변경)
+      process.env.FRONTEND_URL || 'https://your-nextjs-app.vercel.app', // 프론트엔드 배포 도메인
     ],
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
